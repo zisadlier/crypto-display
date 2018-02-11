@@ -26,12 +26,13 @@ def get_currency_attribute(currency, attribute):
  
 class CurrencyDisplay(QWidget):
  
-    def __init__(self, update_time=10, size_ratio=1):
+    def __init__(self, app, update_time=10, size_ratio=1):
         super().__init__()
         #self.layout = QGridLayout(self)
         self.title = 'Crypto display'
         self.update_time = update_time * 1000;
         self.size_ratio = size_ratio
+        self.app = app
 
         self.logo_sizes = {}
         self.logo_sizes["btc"] = 192 * self.size_ratio
@@ -48,7 +49,7 @@ class CurrencyDisplay(QWidget):
         self.show()
  
     def initImages(self):
-        self.geometry = app.desktop().availableGeometry()
+        self.geometry = self.app.desktop().availableGeometry()
         self.setGeometry(self.geometry)
         self.gh = self.geometry.height()
         self.gw = self.geometry.width()
@@ -100,7 +101,7 @@ class CurrencyDisplay(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    ex = CurrencyDisplay(size_ratio=1)
+    ex = CurrencyDisplay(app, size_ratio=0.5)
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
