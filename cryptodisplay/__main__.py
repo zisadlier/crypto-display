@@ -60,7 +60,7 @@ class CurrencyDisplay(QWidget):
         # Bitcoin logo
         btc_logo = QLabel(self)
         btc_logo.setPixmap(QPixmap('images/bitcoin.png').scaled(self.logo_sizes["btc"], self.logo_sizes["btc"], Qt.KeepAspectRatio))
-        btc_logo.move(self.gw/100, self.logo_sizes["btc"]/2)
+        btc_logo.move(self.gw/100, self.gh/2.5 - self.logo_sizes["btc"]/2)
  
         # Ethereum logo
         eth_logo = QLabel(self)
@@ -85,12 +85,11 @@ class CurrencyDisplay(QWidget):
 
         self.btc_price_lbl = QLabel("$"+get_currency_attribute('Bitcoin', 'price_usd'), self)
         self.btc_price_lbl.setFont(big_value_font)
-        text_height = self.btc_price_lbl.fontMetrics().boundingRect(self.btc_price_lbl.text()).height()
-        self.btc_price_lbl.move(self.gw/8, self.geometry.height()/3 - text_height/2)
+        self.btc_price_lbl.move(self.gw/6, self.geometry.height()/3)
 
         self.eth_price_lbl = QLabel("$"+get_currency_attribute('Ethereum', 'price_usd'), self)
         self.eth_price_lbl.setFont(big_value_font)
-        self.eth_price_lbl.move(self.gw/1.45, self.geometry.height()/3)
+        self.eth_price_lbl.move(self.gw/1.4, self.geometry.height()/3)
 
     def setText(self):
         self.date_lbl.setText(datetime.datetime.now().strftime("%B %d, %Y"))
@@ -99,8 +98,10 @@ class CurrencyDisplay(QWidget):
         self.eth_price_lbl.setText("$"+get_currency_attribute('Ethereum', 'price_usd'))
 
 
+def main():
+    app = QApplication(sys.argv)
+    ex = CurrencyDisplay(size_ratio=1)
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    ex = CurrencyDisplay(size_ratio=0.5)
-    sys.exit(app.exec_())
+    main()
