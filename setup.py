@@ -6,7 +6,6 @@ setup(
     packages=['cryptodisplay'],
     include_package_data=True,
     install_requires=[
-        "PyQt5==5.10",
         "coinmarketcap==4.1.2",     
     ],
     entry_points={
