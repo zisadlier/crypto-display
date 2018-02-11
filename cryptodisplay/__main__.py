@@ -11,6 +11,9 @@ Last edited: August 2017
 
 import sys
 import datetime
+import os
+
+from config import *
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -56,16 +59,17 @@ class CurrencyDisplay(QWidget):
  
         # Background
         bg = QLabel(self)
-        bg.setPixmap(QPixmap('images/background.png'))
+        print(os.path.join(IMAGE_DIR, 'background.png'))
+        bg.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'background.png')))
         
         # Bitcoin logo
         btc_logo = QLabel(self)
-        btc_logo.setPixmap(QPixmap('images/bitcoin.png').scaled(self.logo_sizes["btc"], self.logo_sizes["btc"], Qt.KeepAspectRatio))
+        btc_logo.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'bitcoin.png')).scaled(self.logo_sizes["btc"], self.logo_sizes["btc"], Qt.KeepAspectRatio))
         btc_logo.move(self.gw/100, self.gh/2.5 - self.logo_sizes["btc"]/2)
  
         # Ethereum logo
         eth_logo = QLabel(self)
-        eth_logo.setPixmap(QPixmap('images/ethereum.png').scaled(self.logo_sizes["eth"], self.logo_sizes["eth"], Qt.KeepAspectRatio))
+        eth_logo.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'ethereum.png')).scaled(self.logo_sizes["eth"], self.logo_sizes["eth"], Qt.KeepAspectRatio))
         eth_logo.move(self.gw/2, self.gh/2.5 - self.logo_sizes["eth"]/2)
 
 
@@ -101,7 +105,7 @@ class CurrencyDisplay(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    ex = CurrencyDisplay(app, size_ratio=0.5)
+    ex = CurrencyDisplay(app, size_ratio=SIZE_RATIO, update_time=UPDATE_TIME)
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
