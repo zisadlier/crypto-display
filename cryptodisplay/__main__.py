@@ -59,7 +59,7 @@ class CurrencyDisplay(QWidget):
  
         # Background
         bg = QLabel(self)
-        print(os.path.join(IMAGE_DIR, 'background.png'))
+        print(os.path.join(IMAGE_DIR, 'background.png') + "/")
         bg.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'background.png')))
         
         # Bitcoin logo
