@@ -5,8 +5,8 @@ SIZE_RATIO = 1.0
 UPDATE_TIME = 10
 
 # Image folder location - MUST SET
-IMAGE_DIR = 'C:\Python34\MyStyff\\btc-display\cryptodisplay\images'
+IMAGE_DIR = ''
 
 # Altcoin preferences
 ALTCOIN_SIZE = 150
-ALTCOINS = ['Tron']
+ALTCOINS = ['Tron', 'Vibe', 'Enjin-Coin']
