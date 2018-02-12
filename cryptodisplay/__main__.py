@@ -59,8 +59,7 @@ class CurrencyDisplay(QWidget):
  
         # Background
         bg = QLabel(self)
-        print(os.path.join(IMAGE_DIR, 'background.png') + "/")
-        bg.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'background.png')))
+        bg.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'background.png')).scaled(self.gw, self.gh))
         
         # Bitcoin logo
         btc_logo = QLabel(self)
@@ -70,7 +69,7 @@ class CurrencyDisplay(QWidget):
         # Ethereum logo
         eth_logo = QLabel(self)
         eth_logo.setPixmap(QPixmap(os.path.join(IMAGE_DIR, 'ethereum.png')).scaled(self.logo_sizes["eth"], self.logo_sizes["eth"], Qt.KeepAspectRatio))
-        eth_logo.move(self.gw/2, self.gh/2.5 - self.logo_sizes["eth"]/2)
+        eth_logo.move(self.gw/2.2, self.gh/2.5 - self.logo_sizes["eth"]/2)
 
 
 
