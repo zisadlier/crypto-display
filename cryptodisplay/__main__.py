@@ -1,12 +1,5 @@
 """
-ZetCode PyQt5 tutorial 
-
-In this example, we create a simple
-window in PyQt5.
-
-Author: Jan Bodnar
-Website: zetcode.com 
-Last edited: August 2017
+Crypto Display
 """
 
 import sys
@@ -26,6 +19,20 @@ def get_currency_attribute(currency, attribute):
 
     return attributes[attribute]
 
+def get_change_label(currency, window):
+    price_usd = float(get_currency_attribute(currency, 'price_usd'))
+    change_percent = float(get_currency_attribute(currency, 'percent_change_24h'))
+    change_usd = price_usd * (change_percent/100)
+
+    change_str = "$" + str(round(change_usd, 2)) + " (" + str(change_percent) + "%)"
+
+    label = QLabel(change_str, window)
+    if float(change_percent) >= 0:
+        label.setStyleSheet('color: #32CD32')
+    else:
+        label.setStyleSheet('color: #F00')
+
+    return label
  
 class CurrencyDisplay(QWidget):
  
@@ -76,8 +83,10 @@ class CurrencyDisplay(QWidget):
     def initText(self):
 
         date_font = QFont("Times", 48 * self.size_ratio, QFont.Bold) 
-        big_value_font = QFont("Ariel", 64 * self.size_ratio, QFont.Bold) 
+        big_value_font = QFont("Ariel", 64 * self.size_ratio, QFont.Bold)
+        change_font = QFont("Ariel", 24 * self.size_ratio, QFont.Bold)  
 
+        # Date and time labels
         self.date_lbl = QLabel(datetime.datetime.now().strftime("%B %d, %Y"), self)
         self.date_lbl.setFont(date_font)
         self.date_lbl.setStyleSheet('color: #000')
@@ -90,15 +99,27 @@ class CurrencyDisplay(QWidget):
         text_width = self.time_lbl.fontMetrics().boundingRect(self.time_lbl.text()).width()
         self.time_lbl.move(self.gw/2 - text_width/2, self.gh/8)
 
+        # BTC labels
         self.btc_price_lbl = QLabel("$"+get_currency_attribute('Bitcoin', 'price_usd'), self)
         self.btc_price_lbl.setFont(big_value_font)
         self.btc_price_lbl.setStyleSheet('color: #000')
         self.btc_price_lbl.move(self.gw/6, self.geometry.height()/3)
 
+        self.btc_change_lbl = get_change_label('Bitcoin', self)
+        self.btc_change_lbl.setFont(change_font)
+        text_width = self.btc_change_lbl.fontMetrics().boundingRect(self.btc_change_lbl.text()).width()
+        self.btc_change_lbl.move(self.gw/6 + text_width/4, self.geometry.height()/2.25)
+
+        # ETH labels
         self.eth_price_lbl = QLabel("$"+get_currency_attribute('Ethereum', 'price_usd'), self)
         self.eth_price_lbl.setFont(big_value_font)
         self.eth_price_lbl.setStyleSheet('color: #000')
         self.eth_price_lbl.move(self.gw/1.47, self.geometry.height()/3)
+
+        self.eth_change_lbl = get_change_label('Ethereum', self)
+        self.eth_change_lbl.setFont(change_font)
+        text_width = self.eth_change_lbl.fontMetrics().boundingRect(self.eth_change_lbl.text()).width()
+        self.eth_change_lbl.move(self.gw/1.47 + text_width/4, self.geometry.height()/2.25)
 
     def setText(self):
         self.date_lbl.setText(datetime.datetime.now().strftime("%B %d, %Y"))
