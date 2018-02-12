@@ -86,18 +86,18 @@ class CurrencyDisplay(QWidget):
 
         self.time_lbl = QLabel(datetime.datetime.now().strftime("%H:%M"), self)
         self.time_lbl.setFont(date_font)
-        self.date_lbl.setStyleSheet('color: #000')
+        self.time_lbl.setStyleSheet('color: #000')
         text_width = self.time_lbl.fontMetrics().boundingRect(self.time_lbl.text()).width()
         self.time_lbl.move(self.gw/2 - text_width/2, self.gh/8)
 
         self.btc_price_lbl = QLabel("$"+get_currency_attribute('Bitcoin', 'price_usd'), self)
         self.btc_price_lbl.setFont(big_value_font)
-        self.date_lbl.setStyleSheet('color: #000')
+        self.btc_price_lbl.setStyleSheet('color: #000')
         self.btc_price_lbl.move(self.gw/6, self.geometry.height()/3)
 
         self.eth_price_lbl = QLabel("$"+get_currency_attribute('Ethereum', 'price_usd'), self)
         self.eth_price_lbl.setFont(big_value_font)
-        self.date_lbl.setStyleSheet('color: #000')
+        self.eth_price_lbl.setStyleSheet('color: #000')
         self.eth_price_lbl.move(self.gw/1.47, self.geometry.height()/3)
 
     def setText(self):
