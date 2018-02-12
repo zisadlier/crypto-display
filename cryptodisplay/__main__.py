@@ -74,26 +74,31 @@ class CurrencyDisplay(QWidget):
 
 
     def initText(self):
-        date_font = QFont("Times", 32 * self.size_ratio, QFont.Bold) 
+
+        date_font = QFont("Times", 48 * self.size_ratio, QFont.Bold) 
         big_value_font = QFont("Ariel", 64 * self.size_ratio, QFont.Bold) 
 
         self.date_lbl = QLabel(datetime.datetime.now().strftime("%B %d, %Y"), self)
         self.date_lbl.setFont(date_font)
+        self.date_lbl.setStyleSheet('color: #000')
         text_width = self.date_lbl.fontMetrics().boundingRect(self.date_lbl.text()).width()
         self.date_lbl.move(self.gw/2 - text_width/2, self.gh/30)
 
         self.time_lbl = QLabel(datetime.datetime.now().strftime("%H:%M"), self)
         self.time_lbl.setFont(date_font)
+        self.date_lbl.setStyleSheet('color: #000')
         text_width = self.time_lbl.fontMetrics().boundingRect(self.time_lbl.text()).width()
-        self.time_lbl.move(self.gw/2 - text_width/2, self.gh/10)
+        self.time_lbl.move(self.gw/2 - text_width/2, self.gh/8)
 
         self.btc_price_lbl = QLabel("$"+get_currency_attribute('Bitcoin', 'price_usd'), self)
         self.btc_price_lbl.setFont(big_value_font)
+        self.date_lbl.setStyleSheet('color: #000')
         self.btc_price_lbl.move(self.gw/6, self.geometry.height()/3)
 
         self.eth_price_lbl = QLabel("$"+get_currency_attribute('Ethereum', 'price_usd'), self)
         self.eth_price_lbl.setFont(big_value_font)
-        self.eth_price_lbl.move(self.gw/1.4, self.geometry.height()/3)
+        self.date_lbl.setStyleSheet('color: #000')
+        self.eth_price_lbl.move(self.gw/1.47, self.geometry.height()/3)
 
     def setText(self):
         self.date_lbl.setText(datetime.datetime.now().strftime("%B %d, %Y"))
