@@ -215,7 +215,6 @@ class CurrencyDisplay(QWidget):
             self.altcoin_prices.append(alt_price_lbl)
             self.altcoin_changes.append(alt_change_lbl)
 
-        print(self.altcoin_prices)
 
     def update(self):
         self.date_lbl.setText(datetime.datetime.now().strftime("%B %d, %Y"))
