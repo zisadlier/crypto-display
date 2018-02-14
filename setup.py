@@ -8,7 +8,9 @@ setup(
     packages=['cryptodisplay'],
     include_package_data=True,
     install_requires=[
-        "coinmarketcap==4.1.2",     
+        "coinmarketcap==4.1.2",
+        "requests==2.18.4",
+        "bs4==0.0.1",       
     ],
     entry_points={
         'console_scripts': [
@@ -16,3 +18,4 @@ setup(
         ]
     },
 )
+

@@ -5,6 +5,7 @@ Crypto Display
 import sys
 import datetime
 import os
+import requests
 
 from config import *
 
@@ -13,6 +14,25 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 from coinmarketcap import Market
+from bs4 import BeautifulSoup
+
+def get_weather_text(zipcode):
+    page = requests.get('https://weather.com/weather/today/l/'+str(zipcode)+':4:US')
+    soup = BeautifulSoup(page.content, 'html5lib')
+    weather_str = ''
+    
+    temp_tag = soup.find('div', class_='today_nowcard-temp')
+    if temp_tag is not None:
+        weather_str += temp_tag.get_text() + '\n'
+    phrase_tag = soup.find('div', class_='today_nowcard-phrase')
+    if phrase_tag is not None:
+        weather_str += phrase_tag.get_text() + '\n'
+    location_tag = soup.find('h1', class_='today_nowcard-location')
+    if location_tag is not None:
+        loc = location_tag.get_text()
+        weather_str += loc[:loc.find('(')] + '\n'
+
+    return weather_str
 
 def get_currency_attribute(currency, attribute, rounded_usd=False, btc=False):
     attributes = Market().ticker(currency)[0]
@@ -172,7 +192,7 @@ class CurrencyDisplay(QWidget):
 
     def initText(self, only_alts=False):
         # Font declarations
-        date_font = QFont("Times", 48 * self.size_ratio, QFont.Bold) 
+        date_font = QFont("Times", 48 * self.size_ratio, QFont.Bold)
         big_value_font = QFont("Ariel", 64 * self.size_ratio, QFont.Bold)
         small_value_font = QFont("Ariel", 24 * self.size_ratio, QFont.Bold)
         change_font = QFont("Ariel", 28 * self.size_ratio, QFont.Bold)  
@@ -180,13 +200,17 @@ class CurrencyDisplay(QWidget):
 
         if not only_alts:
             # Date and time labels
-            self.date_lbl = get_regular_label(datetime.datetime.now().strftime("%B %d, %Y"), date_font, '000', self)
+            self.date_lbl = get_regular_label(datetime.datetime.now().strftime("%B %d, %Y"), date_font, '101261', self)
             text_width = self.date_lbl.fontMetrics().boundingRect(self.date_lbl.text()).width()
-            self.date_lbl.move(self.gw/2 - text_width/2, self.gh/30)
+            self.date_lbl.move(self.gw/3 - text_width/2, self.gh/30)
 
-            self.time_lbl = get_regular_label(datetime.datetime.now().strftime("%H:%M"), date_font, '000', self)
+            self.time_lbl = get_regular_label(datetime.datetime.now().strftime("%H:%M"), big_value_font, '101261', self)
             text_width = self.time_lbl.fontMetrics().boundingRect(self.time_lbl.text()).width()
-            self.time_lbl.move(self.gw/2 - text_width/2, self.gh/8)
+            self.time_lbl.move(self.gw/3 - text_width/2, self.gh/8)
+
+            # Weather labels
+            self.weather_lbl = get_regular_label(get_weather_text(ZIPCODE), change_font, '101261', self)
+            self.weather_lbl.move(self.gw/1.5, self.gh/15)
 
             # BTC labels
             self.btc_price_lbl = get_regular_label("$"+get_currency_attribute('Bitcoin', 'price_usd', rounded_usd=True), big_value_font, '000', self)
@@ -221,6 +245,7 @@ class CurrencyDisplay(QWidget):
         self.time_lbl.setText(datetime.datetime.now().strftime("%H:%M"))
         self.btc_price_lbl.setText("$"+get_currency_attribute('Bitcoin', 'price_usd'))
         self.eth_price_lbl.setText("$"+get_currency_attribute('Ethereum', 'price_usd'))
+        self.weather_lbl.setText(get_weather_text(ZIPCODE))
         update_change_label(self.btc_change_lbl, 'Bitcoin')
         update_change_label(self.eth_change_lbl, 'Ethereum')
 
