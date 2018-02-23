@@ -106,6 +106,8 @@ def clear_update_alts(window):
 
     if leftover:
         num_sets += 1
+    else:
+        leftover = window.alts_per_set
 
     if window.current_alt_set == num_sets:
         window.current_alt_set = 1
