@@ -101,8 +101,11 @@ def clear_update_alts(window):
     window.altcoin_prices = []
     window.altcoin_changes = []
 
-    num_sets = int(window.num_alts/window.alts_per_set + 1)
+    num_sets = int(window.num_alts/window.alts_per_set)
     leftover = window.num_alts % window.alts_per_set
+
+    if leftover:
+        num_sets += 1
 
     if window.current_alt_set == num_sets:
         window.current_alt_set = 1
